@@ -1,0 +1,4735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elector Roll PDF Finder Pro</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background: #f4f6f9;
+            color: #333;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            width: 100%;
+            max-width: 850px;
+            margin-bottom: 25px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 8px;
+            color: #1a73e8;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .subtitle {
+            text-align: center;
+            color: #5f6368;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #202124;
+            font-size: 14px;
+        }
+        select, input {
+            padding: 12px 14px;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: all 0.25s ease;
+            outline: none;
+            width: 100%;
+            background-color: #fafafa;
+        }
+        select:focus, input:focus {
+            border-color: #1a73e8;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(26,115,232,0.15);
+        }
+        input:disabled {
+            background-color: #e8eaed;
+            color: #70757a;
+            cursor: not-allowed;
+        }
+        .btn-container {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            transition: background 0.2s, transform 0.1s;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .btn-primary {
+            background: #1a73e8;
+            color: white;
+            flex: 2;
+        }
+        .btn-primary:hover {
+            background: #1557b0;
+        }
+        .btn-secondary {
+            background: #f1f3f4;
+            color: #3c4043;
+            flex: 1;
+            max-width: 150px;
+        }
+        .btn-secondary:hover {
+            background: #e8eaed;
+        }
+        .results-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            width: 100%;
+            max-width: 850px;
+            display: none;
+        }
+        .results-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 18px;
+            color: #202124;
+            border-bottom: 2px solid #f1f3f4;
+            padding-bottom: 10px;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th, td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f1f3f4;
+            font-size: 14px;
+        }
+        th {
+            background-color: #f8f9fa;
+            color: #5f6368;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+        tr:hover td {
+            background-color: #f8f9fa;
+        }
+        .btn-open {
+            background: #34a853;
+            color: white;
+            padding: 8px 14px;
+            font-size: 13px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+            transition: background 0.15s ease;
+        }
+        .btn-open:hover {
+            background: #2b8a44;
+        }
+        .no-results {
+            text-align: center;
+            color: #70757a;
+            padding: 30px;
+            font-size: 15px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+        .badge-chd {
+            background: #fef7e0;
+            color: #b06000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Elector Roll PDF Finder Pro</h2>
+    <div class="subtitle">Search Assembly Constituency and Polling Station info to retrieve PDF download pathways</div>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label for="state">State / UT (Optional Filter)</label>
+            <select id="state">
+                <option value="">All States / UTs</option>
+                <option value="Chandigarh">Chandigarh</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="ac">AC Number (Assembly Constituency)</label>
+            <input type="number" id="ac" min="1" placeholder="Enter AC Number" required>
+        </div>
+
+        <div class="form-group">
+            <label id="psLabel" for="ps">Polling Station (PS) No. <span style="color:red;">*</span></label>
+            <input type="number" id="ps" min="1" placeholder="e.g. 45">
+        </div>
+    </div>
+
+    <div class="btn-container">
+        <button class="btn-secondary" onclick="clearForm()">Reset All</button>
+        <button class="btn-primary" onclick="searchRoll()">Search & Find PDF</button>
+    </div>
+</div>
+
+<div class="results-container" id="resultsContainer">
+    <div class="results-title" id="resultsTitle">Matching Results</div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>State/UT</th>
+                    <th>District Name</th>
+                    <th>Assembly Constituency / Area</th>
+                    <th>Polling Station</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody">
+                <!-- Dynamic Content Injection -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+// Complete embedded dataset with all 726 entries from the file
+const database = [
+  {
+    "s": "Punjab",
+    "d": "1 Gurdaspur",
+    "n": 1,
+    "c": "Fatehgarh"
+  },
+  {
+    "s": "Punjab",
+    "d": "1 Gurdaspur",
+    "n": 2,
+    "c": "Batala"
+  },
+  {
+    "s": "Punjab",
+    "d": "1 Gurdaspur",
+    "n": 3,
+    "c": "Qadian"
+  },
+  {
+    "s": "Punjab",
+    "d": "1 Gurdaspur",
+    "n": 4,
+    "c": "Siri Hargobindpur"
+  },
+  {
+    "s": "Punjab",
+    "d": "1 Gurdaspur",
+    "n": 5,
+    "c": "Kahnuwan"
+  },
+  {
+    "s": "Punjab",
+    "d": "1 Gurdaspur",
+    "n": 6,
+    "c": "Dhariwal"
+  },
+  {
+    "s": "Punjab",
+    "d": "1 Gurdaspur",
+    "n": 7,
+    "c": "Gurdaspur"
+  },
+  {
+    "s": "Punjab",
+    "d": "1 Gurdaspur",
+    "n": 8,
+    "c": "Dina Nagar"
+  },
+  {
+    "s": "Punjab",
+    "d": "1 Gurdaspur",
+    "n": 9,
+    "c": "Narot Mehra"
+  },
+  {
+    "s": "Punjab",
+    "d": "1 Gurdaspur",
+    "n": 10,
+    "c": "Pathankot"
+  },
+  {
+    "s": "Punjab",
+    "d": "1 Gurdaspur",
+    "n": 11,
+    "c": "Sujanpur"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 12,
+    "c": "Beas"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 13,
+    "c": "Majitha"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 14,
+    "c": "Verka"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 15,
+    "c": "Jandiala"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 16,
+    "c": "Amritsar North"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 17,
+    "c": "Amritsar West"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 18,
+    "c": "Amritsar Central"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 19,
+    "c": "Amritsar South"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 20,
+    "c": "Ajnala"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 21,
+    "c": "Raja Sansi"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 22,
+    "c": "Attari"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 23,
+    "c": "Tarn Taran"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 24,
+    "c": "Khadoor Sahib"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 25,
+    "c": "Naushahra Panwan"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 26,
+    "c": "Patti"
+  },
+  {
+    "s": "Punjab",
+    "d": "2 Amritsar",
+    "n": 27,
+    "c": "Valtoha"
+  },
+  {
+    "s": "Punjab",
+    "d": "3 Jallandhar",
+    "n": 28,
+    "c": "Adampur"
+  },
+  {
+    "s": "Punjab",
+    "d": "3 Jallandhar",
+    "n": 29,
+    "c": "Jullundur Cantonment"
+  },
+  {
+    "s": "Punjab",
+    "d": "3 Jallandhar",
+    "n": 30,
+    "c": "Jullundur North"
+  },
+  {
+    "s": "Punjab",
+    "d": "3 Jallandhar",
+    "n": 31,
+    "c": "Jullundur Central"
+  },
+  {
+    "s": "Punjab",
+    "d": "3 Jallandhar",
+    "n": 32,
+    "c": "Jullundur South"
+  },
+  {
+    "s": "Punjab",
+    "d": "3 Jallandhar",
+    "n": 33,
+    "c": "Kartarpur"
+  },
+  {
+    "s": "Punjab",
+    "d": "3 Jallandhar",
+    "n": 34,
+    "c": "Lohian"
+  },
+  {
+    "s": "Punjab",
+    "d": "3 Jallandhar",
+    "n": 35,
+    "c": "Nakodar"
+  },
+  {
+    "s": "Punjab",
+    "d": "3 Jallandhar",
+    "n": 36,
+    "c": "Nur Mahal"
+  },
+  {
+    "s": "Punjab",
+    "d": "6 Nawa Shahr",
+    "n": 37,
+    "c": "Banga"
+  },
+  {
+    "s": "Punjab",
+    "d": "6 Nawa Shahr",
+    "n": 38,
+    "c": "Nawan Shahr"
+  },
+  {
+    "s": "Punjab",
+    "d": "3 Jallandhar",
+    "n": 39,
+    "c": "Phillaur"
+  },
+  {
+    "s": "Punjab",
+    "d": "4 Phillaur",
+    "n": 40,
+    "c": "Bholath"
+  },
+  {
+    "s": "Punjab",
+    "d": "4 Phillaur",
+    "n": 41,
+    "c": "Kapurthala"
+  },
+  {
+    "s": "Punjab",
+    "d": "4 Phillaur",
+    "n": 42,
+    "c": "Sultanpur"
+  },
+  {
+    "s": "Punjab",
+    "d": "4 Phillaur",
+    "n": 43,
+    "c": "Phagwara"
+  },
+  {
+    "s": "Punjab",
+    "d": "6 Nawa Shahr",
+    "n": 44,
+    "c": "Balachaur"
+  },
+  {
+    "s": "Punjab",
+    "d": "5 Hoshiarpur",
+    "n": 45,
+    "c": "Garhshankar"
+  },
+  {
+    "s": "Punjab",
+    "d": "5 Hoshiarpur",
+    "n": 46,
+    "c": "Mahilpur"
+  },
+  {
+    "s": "Punjab",
+    "d": "5 Hoshiarpur",
+    "n": 47,
+    "c": "Hoshiarpur"
+  },
+  {
+    "s": "Punjab",
+    "d": "5 Hoshiarpur",
+    "n": 48,
+    "c": "Sham Chaurasi"
+  },
+  {
+    "s": "Punjab",
+    "d": "5 Hoshiarpur",
+    "n": 49,
+    "c": "Tanda"
+  },
+  {
+    "s": "Punjab",
+    "d": "5 Hoshiarpur",
+    "n": 50,
+    "c": "Garhdiwala"
+  },
+  {
+    "s": "Punjab",
+    "d": "5 Hoshiarpur",
+    "n": 51,
+    "c": "Dasuya"
+  },
+  {
+    "s": "Punjab",
+    "d": "5 Hoshiarpur",
+    "n": 52,
+    "c": "Mukerian"
+  },
+  {
+    "s": "Punjab",
+    "d": "8 Ludhiana",
+    "n": 53,
+    "c": "Jagraon"
+  },
+  {
+    "s": "Punjab",
+    "d": "8 Ludhiana",
+    "n": 54,
+    "c": "Raikot"
+  },
+  {
+    "s": "Punjab",
+    "d": "8 Ludhiana",
+    "n": 55,
+    "c": "Dakha"
+  },
+  {
+    "s": "Punjab",
+    "d": "8 Ludhiana",
+    "n": 56,
+    "c": "Qila Raipur"
+  },
+  {
+    "s": "Punjab",
+    "d": "8 Ludhiana",
+    "n": 57,
+    "c": "Ludhiana North"
+  },
+  {
+    "s": "Punjab",
+    "d": "8 Ludhiana",
+    "n": 58,
+    "c": "Ludhiana West"
+  },
+  {
+    "s": "Punjab",
+    "d": "8 Ludhiana",
+    "n": 59,
+    "c": "Ludhiana East"
+  },
+  {
+    "s": "Punjab",
+    "d": "8 Ludhiana",
+    "n": 60,
+    "c": "Ludhiana Rural"
+  },
+  {
+    "s": "Punjab",
+    "d": "8 Ludhiana",
+    "n": 61,
+    "c": "Payal"
+  },
+  {
+    "s": "Punjab",
+    "d": "8 Ludhiana",
+    "n": 62,
+    "c": "Kum Kalan"
+  },
+  {
+    "s": "Punjab",
+    "d": "8 Ludhiana",
+    "n": 63,
+    "c": "Samrala"
+  },
+  {
+    "s": "Punjab",
+    "d": "8 Ludhiana",
+    "n": 64,
+    "c": "Khanna"
+  },
+  {
+    "s": "Punjab",
+    "d": "10 Ropar",
+    "n": 65,
+    "c": "Nangal"
+  },
+  {
+    "s": "Punjab",
+    "d": "10 Ropar",
+    "n": 66,
+    "c": "Anandpur Sahib - Ropar"
+  },
+  {
+    "s": "Punjab",
+    "d": "10 Ropar",
+    "n": 67,
+    "c": "Chamkaur Sahib"
+  },
+  {
+    "s": "Punjab",
+    "d": "10 Ropar",
+    "n": 68,
+    "c": "Morinda"
+  },
+  {
+    "s": "Punjab",
+    "d": "10 Ropar",
+    "n": 69,
+    "c": "Kharar"
+  },
+  {
+    "s": "Punjab",
+    "d": "7 Patiala",
+    "n": 70,
+    "c": "Banur"
+  },
+  {
+    "s": "Punjab",
+    "d": "7 Patiala",
+    "n": 71,
+    "c": "Rajpura"
+  },
+  {
+    "s": "Punjab",
+    "d": "7 Patiala",
+    "n": 72,
+    "c": "Ghanaur"
+  },
+  {
+    "s": "Punjab",
+    "d": "7 Patiala",
+    "n": 73,
+    "c": "Dakala"
+  },
+  {
+    "s": "Punjab",
+    "d": "7 Patiala",
+    "n": 74,
+    "c": "Shutrana"
+  },
+  {
+    "s": "Punjab",
+    "d": "7 Patiala",
+    "n": 75,
+    "c": "Samana"
+  },
+  {
+    "s": "Punjab",
+    "d": "7 Patiala",
+    "n": 76,
+    "c": "Patiala Town"
+  },
+  {
+    "s": "Punjab",
+    "d": "7 Patiala",
+    "n": 77,
+    "c": "Nabha"
+  },
+  {
+    "s": "Punjab",
+    "d": "11 Fategarh Sahib",
+    "n": 78,
+    "c": "Amloh"
+  },
+  {
+    "s": "Punjab",
+    "d": "11 Fategarh Sahib",
+    "n": 79,
+    "c": "Sirhind"
+  },
+  {
+    "s": "Punjab",
+    "d": "9 Sangrur",
+    "n": 80,
+    "c": "Dhuri"
+  },
+  {
+    "s": "Punjab",
+    "d": "9 Sangrur",
+    "n": 81,
+    "c": "Malerkotla"
+  },
+  {
+    "s": "Punjab",
+    "d": "9 Sangrur",
+    "n": 82,
+    "c": "Sherpur"
+  },
+  {
+    "s": "Punjab",
+    "d": "9 Sangrur",
+    "n": 83,
+    "c": "Barnala"
+  },
+  {
+    "s": "Punjab",
+    "d": "9 Sangrur",
+    "n": 84,
+    "c": "Bhadaur"
+  },
+  {
+    "s": "Punjab",
+    "d": "9 Sangrur",
+    "n": 85,
+    "c": "Dhanaula"
+  },
+  {
+    "s": "Punjab",
+    "d": "9 Sangrur",
+    "n": 86,
+    "c": "Sangrur"
+  },
+  {
+    "s": "Punjab",
+    "d": "9 Sangrur",
+    "n": 87,
+    "c": "Dirbha"
+  },
+  {
+    "s": "Punjab",
+    "d": "9 Sangrur",
+    "n": 88,
+    "c": "Sunam"
+  },
+  {
+    "s": "Punjab",
+    "d": "9 Sangrur",
+    "n": 89,
+    "c": "Lehra"
+  },
+  {
+    "s": "Punjab",
+    "d": "12 Ferozpur",
+    "n": 90,
+    "c": "Balluana"
+  },
+  {
+    "s": "Punjab",
+    "d": "12 Ferozpur",
+    "n": 91,
+    "c": "Abohar"
+  },
+  {
+    "s": "Punjab",
+    "d": "12 Ferozpur",
+    "n": 92,
+    "c": "Fazilka"
+  },
+  {
+    "s": "Punjab",
+    "d": "12 Ferozpur",
+    "n": 93,
+    "c": "Jalalabad"
+  },
+  {
+    "s": "Punjab",
+    "d": "12 Ferozpur",
+    "n": 94,
+    "c": "Guru Har Sahai"
+  },
+  {
+    "s": "Punjab",
+    "d": "12 Ferozpur",
+    "n": 95,
+    "c": "Firozepur"
+  },
+  {
+    "s": "Punjab",
+    "d": "12 Ferozpur",
+    "n": 96,
+    "c": "Firozepur Cantonment"
+  },
+  {
+    "s": "Punjab",
+    "d": "12 Ferozpur",
+    "n": 97,
+    "c": "Zira"
+  },
+  {
+    "s": "Punjab",
+    "d": "12 Ferozpur",
+    "n": 98,
+    "c": "Dharamkot"
+  },
+  {
+    "s": "Punjab",
+    "d": "14 Moga",
+    "n": 99,
+    "c": "Moga"
+  },
+  {
+    "s": "Punjab",
+    "d": "14 Moga",
+    "n": 100,
+    "c": "Bagha Purana"
+  },
+  {
+    "s": "Punjab",
+    "d": "14 Moga",
+    "n": 101,
+    "c": "Nihal Singh Wala"
+  },
+  {
+    "s": "Punjab",
+    "d": "15 Faridkot",
+    "n": 102,
+    "c": "Panjgrain"
+  },
+  {
+    "s": "Punjab",
+    "d": "15 Faridkot",
+    "n": 103,
+    "c": "Kot Kapura"
+  },
+  {
+    "s": "Punjab",
+    "d": "15 Faridkot",
+    "n": 104,
+    "c": "Faridkot"
+  },
+  {
+    "s": "Punjab",
+    "d": "13 Muktsar",
+    "n": 105,
+    "c": "Muktsar"
+  },
+  {
+    "s": "Punjab",
+    "d": "13 Muktsar",
+    "n": 106,
+    "c": "Giddar Baha"
+  },
+  {
+    "s": "Punjab",
+    "d": "13 Muktsar",
+    "n": 107,
+    "c": "Malout"
+  },
+  {
+    "s": "Punjab",
+    "d": "13 Muktsar",
+    "n": 108,
+    "c": "Lambi"
+  },
+  {
+    "s": "Punjab",
+    "d": "16 Bhatinda",
+    "n": 109,
+    "c": "Talwandi Sabo"
+  },
+  {
+    "s": "Punjab",
+    "d": "16 Bhatinda",
+    "n": 110,
+    "c": "Pakka Kalan"
+  },
+  {
+    "s": "Punjab",
+    "d": "16 Bhatinda",
+    "n": 111,
+    "c": "Bhatinda"
+  },
+  {
+    "s": "Punjab",
+    "d": "16 Bhatinda",
+    "n": 112,
+    "c": "Nathana"
+  },
+  {
+    "s": "Punjab",
+    "d": "16 Bhatinda",
+    "n": 113,
+    "c": "Rampura Phul"
+  },
+  {
+    "s": "Punjab",
+    "d": "16 Bhatinda",
+    "n": 114,
+    "c": "Joga"
+  },
+  {
+    "s": "Punjab",
+    "d": "17 Mansa",
+    "n": 115,
+    "c": "Mansa"
+  },
+  {
+    "s": "Punjab",
+    "d": "17 Mansa",
+    "n": 116,
+    "c": "Budhlada"
+  },
+  {
+    "s": "Punjab",
+    "d": "17 Mansa",
+    "n": 117,
+    "c": "Sardulgarh"
+  },
+  {
+    "s": "Haryana",
+    "d": "1 Panchkula",
+    "n": 1,
+    "c": "Kalka"
+  },
+  {
+    "s": "Haryana",
+    "d": "3 Ambala",
+    "n": 2,
+    "c": "Naraingarh"
+  },
+  {
+    "s": "Haryana",
+    "d": "2 Yamuna Nagar",
+    "n": 3,
+    "c": "Sadhaura (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "2 Yamuna Nagar",
+    "n": 4,
+    "c": "Chhachhrauli"
+  },
+  {
+    "s": "Haryana",
+    "d": "2 Yamuna Nagar",
+    "n": 5,
+    "c": "Safidon"
+  },
+  {
+    "s": "Haryana",
+    "d": "2 Yamuna Nagar",
+    "n": 6,
+    "c": "Jagadhri"
+  },
+  {
+    "s": "Haryana",
+    "d": "3 Ambala",
+    "n": 7,
+    "c": "Mullana (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "3 Ambala",
+    "n": 8,
+    "c": "Ambala Cantonment"
+  },
+  {
+    "s": "Haryana",
+    "d": "3 Ambala",
+    "n": 9,
+    "c": "Ambala City"
+  },
+  {
+    "s": "Haryana",
+    "d": "3 Ambala",
+    "n": 10,
+    "c": "Naggal"
+  },
+  {
+    "s": "Haryana",
+    "d": "4 Karnal",
+    "n": 11,
+    "c": "Indri"
+  },
+  {
+    "s": "Haryana",
+    "d": "4 Karnal",
+    "n": 12,
+    "c": "Nilokheri"
+  },
+  {
+    "s": "Haryana",
+    "d": "4 Karnal",
+    "n": 13,
+    "c": "Karnal"
+  },
+  {
+    "s": "Haryana",
+    "d": "4 Karnal",
+    "n": 14,
+    "c": "Jundla (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "4 Karnal",
+    "n": 15,
+    "c": "Gharaunda"
+  },
+  {
+    "s": "Haryana",
+    "d": "4 Karnal",
+    "n": 16,
+    "c": "Assandh (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "5 Panipat",
+    "n": 17,
+    "c": "Panipat"
+  },
+  {
+    "s": "Haryana",
+    "d": "5 Panipat",
+    "n": 18,
+    "c": "Sambhalka"
+  },
+  {
+    "s": "Haryana",
+    "d": "5 Panipat",
+    "n": 19,
+    "c": "Naultha"
+  },
+  {
+    "s": "Haryana",
+    "d": "6 Kurukshetra",
+    "n": 20,
+    "c": "Shahabad"
+  },
+  {
+    "s": "Haryana",
+    "d": "2 Yamuna Nagar",
+    "n": 21,
+    "c": "Radaur (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "6 Kurukshetra",
+    "n": 22,
+    "c": "Thanesar"
+  },
+  {
+    "s": "Haryana",
+    "d": "6 Kurukshetra",
+    "n": 23,
+    "c": "Pehowa"
+  },
+  {
+    "s": "Haryana",
+    "d": "7 Kaithal",
+    "n": 24,
+    "c": "Guhla (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "7 Kaithal",
+    "n": 25,
+    "c": "Kaithal"
+  },
+  {
+    "s": "Haryana",
+    "d": "7 Kaithal",
+    "n": 26,
+    "c": "Pundri"
+  },
+  {
+    "s": "Haryana",
+    "d": "7 Kaithal",
+    "n": 27,
+    "c": "Pai"
+  },
+  {
+    "s": "Haryana",
+    "d": "8 Rohtak",
+    "n": 28,
+    "c": "Hassangarh"
+  },
+  {
+    "s": "Haryana",
+    "d": "8 Rohtak",
+    "n": 29,
+    "c": "Kiloi"
+  },
+  {
+    "s": "Haryana",
+    "d": "8 Rohtak",
+    "n": 30,
+    "c": "Rohtak"
+  },
+  {
+    "s": "Haryana",
+    "d": "8 Rohtak",
+    "n": 31,
+    "c": "Meham"
+  },
+  {
+    "s": "Haryana",
+    "d": "8 Rohtak",
+    "n": 32,
+    "c": "Kalanaur (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "9 Jhajjer",
+    "n": 33,
+    "c": "Beri"
+  },
+  {
+    "s": "Haryana",
+    "d": "9 Jhajjer",
+    "n": 34,
+    "c": "Salhawas"
+  },
+  {
+    "s": "Haryana",
+    "d": "9 Jhajjer",
+    "n": 35,
+    "c": "Jhajjar (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "9 Jhajjer",
+    "n": 36,
+    "c": "Badli"
+  },
+  {
+    "s": "Haryana",
+    "d": "9 Jhajjer",
+    "n": 37,
+    "c": "Bahadurgarh"
+  },
+  {
+    "s": "Haryana",
+    "d": "10 Sonepat",
+    "n": 38,
+    "c": "Baroda (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "10 Sonepat",
+    "n": 39,
+    "c": "Gohana"
+  },
+  {
+    "s": "Haryana",
+    "d": "10 Sonepat",
+    "n": 40,
+    "c": "Kailana"
+  },
+  {
+    "s": "Haryana",
+    "d": "10 Sonepat",
+    "n": 41,
+    "c": "Sonepat"
+  },
+  {
+    "s": "Haryana",
+    "d": "10 Sonepat",
+    "n": 42,
+    "c": "Rai"
+  },
+  {
+    "s": "Haryana",
+    "d": "10 Sonepat",
+    "n": 43,
+    "c": "Rohat"
+  },
+  {
+    "s": "Haryana",
+    "d": "7 Kaithal",
+    "n": 44,
+    "c": "Kalayat (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "11 Jind",
+    "n": 45,
+    "c": "Narwana"
+  },
+  {
+    "s": "Haryana",
+    "d": "11 Jind",
+    "n": 46,
+    "c": "Uchana Kalan"
+  },
+  {
+    "s": "Haryana",
+    "d": "11 Jind",
+    "n": 47,
+    "c": "Rajond"
+  },
+  {
+    "s": "Haryana",
+    "d": "11 Jind",
+    "n": 48,
+    "c": "Jind"
+  },
+  {
+    "s": "Haryana",
+    "d": "11 Jind",
+    "n": 49,
+    "c": "Julana"
+  },
+  {
+    "s": "Haryana",
+    "d": "11 Jind",
+    "n": 50,
+    "c": "Safidon"
+  },
+  {
+    "s": "Haryana",
+    "d": "12 Faridabad",
+    "n": 51,
+    "c": "Faridabad"
+  },
+  {
+    "s": "Haryana",
+    "d": "12 Faridabad",
+    "n": 52,
+    "c": "Mewla Maharajpur"
+  },
+  {
+    "s": "Haryana",
+    "d": "12 Faridabad",
+    "n": 53,
+    "c": "Ballabgarh"
+  },
+  {
+    "s": "Haryana",
+    "d": "12 Faridabad",
+    "n": 54,
+    "c": "Palwal"
+  },
+  {
+    "s": "Haryana",
+    "d": "12 Faridabad",
+    "n": 55,
+    "c": "Hassanpur (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "12 Faridabad",
+    "n": 56,
+    "c": "Hathin"
+  },
+  {
+    "s": "Haryana",
+    "d": "13 Gurgaon",
+    "n": 57,
+    "c": "Ferozepur Jhirka"
+  },
+  {
+    "s": "Haryana",
+    "d": "13 Gurgaon",
+    "n": 58,
+    "c": "Nuh"
+  },
+  {
+    "s": "Haryana",
+    "d": "13 Gurgaon",
+    "n": 59,
+    "c": "Taoru"
+  },
+  {
+    "s": "Haryana",
+    "d": "13 Gurgaon",
+    "n": 60,
+    "c": "Sohna"
+  },
+  {
+    "s": "Haryana",
+    "d": "13 Gurgaon",
+    "n": 61,
+    "c": "Gurgaon"
+  },
+  {
+    "s": "Haryana",
+    "d": "13 Gurgaon",
+    "n": 62,
+    "c": "Pataudi (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "14 Bhiwani",
+    "n": 63,
+    "c": "Badhra"
+  },
+  {
+    "s": "Haryana",
+    "d": "14 Bhiwani",
+    "n": 64,
+    "c": "Dadri"
+  },
+  {
+    "s": "Haryana",
+    "d": "14 Bhiwani",
+    "n": 65,
+    "c": "Mundhal Khurd"
+  },
+  {
+    "s": "Haryana",
+    "d": "14 Bhiwani",
+    "n": 66,
+    "c": "Bhiwani"
+  },
+  {
+    "s": "Haryana",
+    "d": "14 Bhiwani",
+    "n": 67,
+    "c": "Tosham"
+  },
+  {
+    "s": "Haryana",
+    "d": "14 Bhiwani",
+    "n": 68,
+    "c": "Loharu"
+  },
+  {
+    "s": "Haryana",
+    "d": "14 Bhiwani",
+    "n": 69,
+    "c": "Bawani Khera (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "15 Hissar",
+    "n": 70,
+    "c": "Barwala"
+  },
+  {
+    "s": "Haryana",
+    "d": "15 Hissar",
+    "n": 71,
+    "c": "Narnaund"
+  },
+  {
+    "s": "Haryana",
+    "d": "15 Hissar",
+    "n": 72,
+    "c": "Hansi"
+  },
+  {
+    "s": "Haryana",
+    "d": "16 Fatehbad",
+    "n": 73,
+    "c": "Bhattu Kalan"
+  },
+  {
+    "s": "Haryana",
+    "d": "15 Hissar",
+    "n": 74,
+    "c": "Hissar"
+  },
+  {
+    "s": "Haryana",
+    "d": "15 Hissar",
+    "n": 75,
+    "c": "Ghirai"
+  },
+  {
+    "s": "Haryana",
+    "d": "16 Fatehbad",
+    "n": 76,
+    "c": "Tohana"
+  },
+  {
+    "s": "Haryana",
+    "d": "16 Fatehbad",
+    "n": 77,
+    "c": "Ratia (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "16 Fatehbad",
+    "n": 78,
+    "c": "Fatehabad"
+  },
+  {
+    "s": "Haryana",
+    "d": "15 Hissar",
+    "n": 79,
+    "c": "Adampur"
+  },
+  {
+    "s": "Haryana",
+    "d": "17 Sirsa",
+    "n": 80,
+    "c": "Darba Kalon"
+  },
+  {
+    "s": "Haryana",
+    "d": "17 Sirsa",
+    "n": 81,
+    "c": "Ellenabad (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "17 Sirsa",
+    "n": 82,
+    "c": "Sirsa"
+  },
+  {
+    "s": "Haryana",
+    "d": "17 Sirsa",
+    "n": 83,
+    "c": "Rori"
+  },
+  {
+    "s": "Haryana",
+    "d": "17 Sirsa",
+    "n": 84,
+    "c": "Dabwali (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "18 Rewari",
+    "n": 85,
+    "c": "Bawal (SC)"
+  },
+  {
+    "s": "Haryana",
+    "d": "18 Rewari",
+    "n": 86,
+    "c": "Jatusana"
+  },
+  {
+    "s": "Haryana",
+    "d": "18 Rewari",
+    "n": 87,
+    "c": "Rewari"
+  },
+  {
+    "s": "Haryana",
+    "d": "19 Mahendargarh",
+    "n": 88,
+    "c": "Ateli"
+  },
+  {
+    "s": "Haryana",
+    "d": "19 Mahendargarh",
+    "n": 89,
+    "c": "Mahendragarh"
+  },
+  {
+    "s": "Haryana",
+    "d": "19 Mahendargarh",
+    "n": 90,
+    "c": "Narnaul"
+  },
+  {
+    "s": "Uttar Pradesh",
+    "d": "1 Saharanpur",
+    "n": 402,
+    "c": "Saharanpur"
+  },
+  {
+    "s": "Uttar Pradesh",
+    "d": "59 Rae Bareli",
+    "n": 95,
+    "c": "Sareni"
+  },
+  {
+    "s": "Uttar Pradesh",
+    "d": "49 Ballia",
+    "n": 209,
+    "c": "Bansdih"
+  },
+  {
+    "s": "Uttar Pradesh",
+    "d": "2 Muzzafarnagar",
+    "n": 392,
+    "c": "Muzzafarnagarh"
+  },
+  {
+    "s": "Uttar Pradesh",
+    "d": "8 Agra",
+    "n": 343,
+    "c": "Agra West"
+  },
+  {
+    "s": "Madhya Pradesh",
+    "d": "36 Indore",
+    "n": 182,
+    "c": "Inodre 3"
+  },
+  {
+    "s": "Madhya Pradesh",
+    "d": "32 Vidisha",
+    "n": 158,
+    "c": "Vidisha"
+  },
+  {
+    "s": "Madhya Pradesh",
+    "d": "4 Gwalliar",
+    "n": 16,
+    "c": "Lashkar East"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "1 Kinnaur",
+    "n": 1,
+    "c": "Kinnaur (ST)"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "2 Shimla",
+    "n": 2,
+    "c": "Rampur (SC)"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "2 Shimla",
+    "n": 3,
+    "c": "Rohru"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "2 Shimla",
+    "n": 4,
+    "c": "Jubbal-Kotkhai"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "2 Shimla",
+    "n": 5,
+    "c": "Chopal"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "2 Shimla",
+    "n": 6,
+    "c": "Kumarsain"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "2 Shimla",
+    "n": 7,
+    "c": "Theog"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "2 Shimla",
+    "n": 8,
+    "c": "Shimla"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "2 Shimla",
+    "n": 9,
+    "c": "Kasumpti (SC)"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "3 Solan",
+    "n": 10,
+    "c": "Arki"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "3 Solan",
+    "n": 11,
+    "c": "Doon"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "3 Solan",
+    "n": 12,
+    "c": "Nalagarh"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "3 Solan",
+    "n": 13,
+    "c": "Kasauli (SC)"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "3 Solan",
+    "n": 14,
+    "c": "Solan"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "4 Sirmour",
+    "n": 15,
+    "c": "Pachhad (SC)"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "4 Sirmour",
+    "n": 16,
+    "c": "Rainka (SC)"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "4 Sirmour",
+    "n": 17,
+    "c": "Shillai"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "4 Sirmour",
+    "n": 18,
+    "c": "Paonta Doon"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "4 Sirmour",
+    "n": 19,
+    "c": "Nahan"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "5 Bilaspur",
+    "n": 20,
+    "c": "Kotkehloor"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "5 Bilaspur",
+    "n": 21,
+    "c": "Bilaspur"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "5 Bilaspur",
+    "n": 22,
+    "c": "Ghumarwin"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "5 Bilaspur",
+    "n": 23,
+    "c": "Geharwin (SC)"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "6 Hamirpur",
+    "n": 24,
+    "c": "Nadaund"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "6 Hamirpur",
+    "n": 25,
+    "c": "Hamirpur"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "6 Hamirpur",
+    "n": 26,
+    "c": "Bamsan"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "6 Hamirpur",
+    "n": 27,
+    "c": "Mewa (SC)"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "6 Hamirpur",
+    "n": 28,
+    "c": "Nadaunta"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "7 Una",
+    "n": 29,
+    "c": "Gagret (SC)"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "7 Una",
+    "n": 30,
+    "c": "Chintpurni"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "7 Una",
+    "n": 31,
+    "c": "Santokhgarh"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "7 Una",
+    "n": 32,
+    "c": "Una"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "7 Una",
+    "n": 33,
+    "c": "Kutlehar"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 34,
+    "c": "Nurpur"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 35,
+    "c": "Ganghat"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 36,
+    "c": "Jawali"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 37,
+    "c": "Guler"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 38,
+    "c": "Jaswan"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 39,
+    "c": "Pragpur (SC)"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 40,
+    "c": "Jwalamukhi"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 41,
+    "c": "Thural"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 42,
+    "c": "Rajgir (SC)"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 43,
+    "c": "Baijnath"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 44,
+    "c": "Palampur"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 45,
+    "c": "Hamirpur"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 46,
+    "c": "Nagrota"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 47,
+    "c": "Shahpur"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 48,
+    "c": "Dharamshala"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "8 Kangra",
+    "n": 49,
+    "c": "Kangra"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "9 Chamba",
+    "n": 50,
+    "c": "Bhattiyat"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "9 Chamba",
+    "n": 51,
+    "c": "Banikhet"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "9 Chamba",
+    "n": 52,
+    "c": "Rajnagar"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "9 Chamba",
+    "n": 53,
+    "c": "Chamba"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "9 Chamba",
+    "n": 54,
+    "c": "Bharmour"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "10 Lahaul Spiri",
+    "n": 55,
+    "c": "Lahaul Spiti"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "11 Kullu",
+    "n": 56,
+    "c": "Kullu"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "11 Kullu",
+    "n": 57,
+    "c": "Banjar"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "11 Kullu",
+    "n": 58,
+    "c": "Ani"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "12 Mandi",
+    "n": 59,
+    "c": "Karsog"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "12 Mandi",
+    "n": 60,
+    "c": "Chachiot"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "12 Mandi",
+    "n": 61,
+    "c": "Nachan"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "12 Mandi",
+    "n": 62,
+    "c": "Sundernagar"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "12 Mandi",
+    "n": 63,
+    "c": "Balh"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "12 Mandi",
+    "n": 64,
+    "c": "Gopalpur"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "12 Mandi",
+    "n": 65,
+    "c": "Dharampur"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "12 Mandi",
+    "n": 66,
+    "c": "Joginder Nagar"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "12 Mandi",
+    "n": 67,
+    "c": "Darang"
+  },
+  {
+    "s": "Himachal Pradesh",
+    "d": "12 Mandi",
+    "n": 68,
+    "c": "Mandi"
+  },
+  {
+    "s": "Delhi",
+    "d": "4 West Delhi",
+    "n": 12,
+    "c": "Janakpuri"
+  },
+  {
+    "s": "Delhi",
+    "d": "1 New Delhi",
+    "n": 1,
+    "c": "Sarojni"
+  },
+  {
+    "s": "Delhi",
+    "d": "7 North East",
+    "n": 52,
+    "c": "Qarwal Nagar"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 105,
+    "c": "Sector 1"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 106,
+    "c": "Sector 4, Sector 5"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 107,
+    "c": "Sector 7"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 108,
+    "c": "Sector 7"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 109,
+    "c": "Sector 7"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 110,
+    "c": "Sector 7"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 111,
+    "c": "Sector 7"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 112,
+    "c": "Sector 7"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 113,
+    "c": "Sector 7"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 114,
+    "c": "Sector 7"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 115,
+    "c": "Sector 7"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 116,
+    "c": "Sector 8"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 117,
+    "c": "Sector 8"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 118,
+    "c": "Sector 8"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 119,
+    "c": "Sector 8"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 120,
+    "c": "Sector 8"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 121,
+    "c": "Sector 9"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 122,
+    "c": "Sector 9"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 123,
+    "c": "Sector 10"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 124,
+    "c": "Sector 11"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 125,
+    "c": "Sector 11"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 126,
+    "c": "Sector 11"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 127,
+    "c": "Sector 11"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 128,
+    "c": "Sector 11"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 129,
+    "c": "Sector 11"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 130,
+    "c": "Sector 12"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 131,
+    "c": "Sector 12"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 132,
+    "c": "Sector 12"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 133,
+    "c": "Sector 14"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 134,
+    "c": "Sector 14"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 135,
+    "c": "Sector 14"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 136,
+    "c": "Sector 14"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 137,
+    "c": "Sector 14"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 138,
+    "c": "Sector 15"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 139,
+    "c": "Sector 15"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 140,
+    "c": "Sector 15"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 141,
+    "c": "Sector 15"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 142,
+    "c": "Sector 15"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 143,
+    "c": "Sector 15"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 144,
+    "c": "Sector 15"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 145,
+    "c": "Sector 15"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 146,
+    "c": "Sector 15"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 147,
+    "c": "Sector 15"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 148,
+    "c": "Sector 15"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 149,
+    "c": "Sector 15"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 150,
+    "c": "Sector 15"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 151,
+    "c": "Sector 15"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 152,
+    "c": "Sector 16"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 153,
+    "c": "Sector 16"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 154,
+    "c": "Sector 16"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 155,
+    "c": "Sector 16"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 156,
+    "c": "Sector 17"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 157,
+    "c": "Sector 18"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 158,
+    "c": "Sector 18"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 159,
+    "c": "Sector 18"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 160,
+    "c": "Sector 18"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 161,
+    "c": "Sector 18"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 162,
+    "c": "Sector 19"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 163,
+    "c": "Sector 19"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 164,
+    "c": "Sector 19"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 165,
+    "c": "Sector 19"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 166,
+    "c": "Sector 19"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 167,
+    "c": "Sector 19"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 168,
+    "c": "Sector 19"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 169,
+    "c": "Sector 19"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 170,
+    "c": "Sector 19"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 171,
+    "c": "Sector 19"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 172,
+    "c": "Sector 19"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 173,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 174,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 175,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 176,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 177,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 178,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 179,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 180,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 181,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 182,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 183,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 184,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 185,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 186,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 187,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 188,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 189,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 190,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 191,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 192,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 193,
+    "c": "Sector 20"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 194,
+    "c": "Sector 21"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 195,
+    "c": "Sector 21"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 196,
+    "c": "Sector 21"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 197,
+    "c": "Sector 21"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 198,
+    "c": "Sector 21"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 199,
+    "c": "Sector 21"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 200,
+    "c": "Sector 21"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 201,
+    "c": "Sector 21"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 202,
+    "c": "Sector 21"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 203,
+    "c": "Sector 21"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 204,
+    "c": "Sector 21"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 205,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 206,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 207,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 208,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 209,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 210,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 211,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 212,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 213,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 214,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 215,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 216,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 217,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 218,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 219,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 220,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 221,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 222,
+    "c": "Sector 22"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 223,
+    "c": "Sector 23"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 224,
+    "c": "Sector 23"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 225,
+    "c": "Sector 23"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 226,
+    "c": "Sector 23"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 227,
+    "c": "Sector 23"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 228,
+    "c": "Sector 23"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 229,
+    "c": "Sector 23"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 230,
+    "c": "Sector 23"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 231,
+    "c": "Sector 23"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 232,
+    "c": "Sector 23"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 233,
+    "c": "Sector 23"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 234,
+    "c": "Sector 23"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 235,
+    "c": "Sector 23"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 236,
+    "c": "Sector 23"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 237,
+    "c": "Sector 24"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 238,
+    "c": "Sector 24"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 239,
+    "c": "Sector 24"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 240,
+    "c": "Sector 24"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 241,
+    "c": "Sector 24"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 242,
+    "c": "Sector 24"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 243,
+    "c": "Sector 24"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 244,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 245,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 246,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 247,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 248,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 249,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 250,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 251,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 252,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 253,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 254,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 255,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 256,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 257,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 258,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 259,
+    "c": "Sector 25"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 260,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 261,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 262,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 263,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 264,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 265,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 266,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 267,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 268,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 269,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 270,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 271,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 272,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 273,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 274,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 275,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 276,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 277,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 278,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 279,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 280,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 281,
+    "c": "Sector 26"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 282,
+    "c": "Sector 27"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 283,
+    "c": "Sector 27"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 284,
+    "c": "Sector 27"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 285,
+    "c": "Sector 27"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 286,
+    "c": "Sector 27"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 287,
+    "c": "Sector 27"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 288,
+    "c": "Sector 27"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 289,
+    "c": "Sector 27"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 290,
+    "c": "Sector 27"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 291,
+    "c": "Sector 27"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 292,
+    "c": "Sector 27"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 293,
+    "c": "Sector 27"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 294,
+    "c": "Sector 28"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 295,
+    "c": "Sector 28"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 296,
+    "c": "Sector 28"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 297,
+    "c": "Sector 28"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 298,
+    "c": "Sector 28"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 299,
+    "c": "Sector 28"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 300,
+    "c": "Sector 28"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 301,
+    "c": "Sector 28"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 302,
+    "c": "Sector 29"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 303,
+    "c": "Sector 29"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 304,
+    "c": "Sector 29"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 305,
+    "c": "Sector 29"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 306,
+    "c": "Sector 29"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 307,
+    "c": "Sector 29"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 308,
+    "c": "Sector 29"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 309,
+    "c": "Sector 29"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 310,
+    "c": "Sector 29"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 311,
+    "c": "Sector 29"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 312,
+    "c": "Sector 30"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 313,
+    "c": "Sector 30"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 314,
+    "c": "Sector 30"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 315,
+    "c": "Sector 30"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 316,
+    "c": "Sector 30"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 317,
+    "c": "Sector 30"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 318,
+    "c": "Sector 30"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 319,
+    "c": "Sector 30"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 320,
+    "c": "Sector 30"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 321,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 322,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 323,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 324,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 325,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 326,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 327,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 328,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 329,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 330,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 331,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 332,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 333,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 334,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 335,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 336,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 337,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 338,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 339,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 340,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 341,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 342,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 343,
+    "c": "Sector 31"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 344,
+    "c": "Sector 31"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 345,
+    "c": "Sector 32"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 346,
+    "c": "Sector 32"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 347,
+    "c": "Sector 32"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 348,
+    "c": "Sector 32"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 349,
+    "c": "Sector 32"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 350,
+    "c": "Sector 32"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 351,
+    "c": "Sector 32"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 352,
+    "c": "Sector 32"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 353,
+    "c": "Sector 33"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 354,
+    "c": "Sector 33"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 355,
+    "c": "Sector 33"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 356,
+    "c": "Sector 33"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 357,
+    "c": "Sector 33"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 358,
+    "c": "Sector 34"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 359,
+    "c": "Sector 34"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 360,
+    "c": "Sector 34"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 361,
+    "c": "Sector 34"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 362,
+    "c": "Sector 34"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 363,
+    "c": "Sector 34"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 364,
+    "c": "Sector 34"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 365,
+    "c": "Sector 34"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 366,
+    "c": "Sector 34"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 367,
+    "c": "Sector 34"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 368,
+    "c": "Sector 34"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 369,
+    "c": "Sector 34"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 370,
+    "c": "Sector 34"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 371,
+    "c": "Sector 34"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 372,
+    "c": "Sector 36"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 373,
+    "c": "Sector 36"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 374,
+    "c": "Sector 36"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 375,
+    "c": "Sector 37"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 376,
+    "c": "Sector 37"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 377,
+    "c": "Sector 37"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 378,
+    "c": "Sector 37"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 379,
+    "c": "Sector 37"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 380,
+    "c": "Sector 37"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 381,
+    "c": "Sector 37"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 382,
+    "c": "Sector 37"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 383,
+    "c": "Sector 37"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 384,
+    "c": "Sector 37"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 385,
+    "c": "Sector 37"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 386,
+    "c": "Sector 37"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 387,
+    "c": "Sector 37"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 388,
+    "c": "Sector 38"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 389,
+    "c": "Sector 38"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 390,
+    "c": "Sector 38"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 391,
+    "c": "Sector 38"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 392,
+    "c": "Sector 38"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 393,
+    "c": "Sector 38"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 394,
+    "c": "Sector 38"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 395,
+    "c": "Sector 38"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 396,
+    "c": "Sector 38"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 397,
+    "c": "Sector 38"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 398,
+    "c": "Sector 38"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 399,
+    "c": "Sector 39"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 400,
+    "c": "Sector 39"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 401,
+    "c": "Sector 39"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 402,
+    "c": "Sector 39"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 403,
+    "c": "Sector 39"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 404,
+    "c": "Sector 40"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 405,
+    "c": "Sector 40"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 406,
+    "c": "Sector 40"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 407,
+    "c": "Sector 40"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 408,
+    "c": "Sector 40"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 409,
+    "c": "Sector 40"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 410,
+    "c": "Sector 40"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 411,
+    "c": "Sector 40"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 412,
+    "c": "Sector 40"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 413,
+    "c": "Sector 40"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 414,
+    "c": "Sector 40"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 415,
+    "c": "Sector 40"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 416,
+    "c": "Sector 40"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 417,
+    "c": "Sector 40"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 418,
+    "c": "Sector 41"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 419,
+    "c": "Sector 41"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 420,
+    "c": "Sector 41"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 421,
+    "c": "Sector 41"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 422,
+    "c": "Sector 41"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 423,
+    "c": "Sector 41"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 424,
+    "c": "Sector 41"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 425,
+    "c": "Sector 41"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 426,
+    "c": "Sector 41"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 427,
+    "c": "Sector 41"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 428,
+    "c": "Sector 41"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 429,
+    "c": "Sector 42"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 430,
+    "c": "Sector 42"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 431,
+    "c": "Sector 42"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 432,
+    "c": "Sector 42"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 433,
+    "c": "Sector 43"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 434,
+    "c": "Sector 43"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 435,
+    "c": "Sector 43"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 436,
+    "c": "Sector 43"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 437,
+    "c": "Sector 43"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 438,
+    "c": "Sector 44"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 439,
+    "c": "Sector 44"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 440,
+    "c": "Sector 44"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 441,
+    "c": "Sector 44"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 442,
+    "c": "Sector 44"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 443,
+    "c": "Sector 44"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 444,
+    "c": "Sector 44"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 445,
+    "c": "Sector 44"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 446,
+    "c": "Sector 44"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 447,
+    "c": "Sector 44"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 448,
+    "c": "Sector 44"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 449,
+    "c": "Sector 44"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 450,
+    "c": "Sector 45"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 451,
+    "c": "Sector 45"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 452,
+    "c": "Sector 45"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 453,
+    "c": "Sector 45"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 454,
+    "c": "Sector 45"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 455,
+    "c": "Sector 45"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 456,
+    "c": "Sector 45"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 457,
+    "c": "Sector 45"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 458,
+    "c": "Sector 45"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 459,
+    "c": "Sector 45"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 460,
+    "c": "Sector 45"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 461,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 462,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 463,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 464,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 465,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 466,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 467,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 468,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 469,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 470,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 471,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 472,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 473,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 474,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 475,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 476,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 477,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 478,
+    "c": "Sector-49 and Shaheed Bhagat Singh Colony"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 479,
+    "c": "Sector-49 and Shaheed Bhagat Singh Colony"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 480,
+    "c": "Sector-49 and Shaheed Bhagat Singh Colony"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 481,
+    "c": "Sector-49 and Shaheed Bhagat Singh Colony"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 482,
+    "c": "Sector 46"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 483,
+    "c": "Sector 46"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 484,
+    "c": "Sector 46"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 485,
+    "c": "Sector 46"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 486,
+    "c": "Sector 46"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 487,
+    "c": "Sector 46"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 488,
+    "c": "Sector 46"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 489,
+    "c": "Sector 46"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 490,
+    "c": "Sector 46"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 491,
+    "c": "Sector 46"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 492,
+    "c": "Sector 46"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 493,
+    "c": "Sector 46"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 494,
+    "c": "Sector 47"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 495,
+    "c": "Sector 47"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 496,
+    "c": "Sector 47"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 497,
+    "c": "Sector 47"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 498,
+    "c": "Sector 47"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 499,
+    "c": "Sector 47"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 500,
+    "c": "Sector 47"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 501,
+    "c": "Sector 47"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 502,
+    "c": "Sector 47"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 503,
+    "c": "Sector 47"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 504,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 505,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 506,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 507,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 508,
+    "c": ""
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 509,
+    "c": "Manimajra Pipliwala Town M.N. 147 to 1619"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 510,
+    "c": "Manimajra M.N. From 2002 to 2115"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 511,
+    "c": "Manimajra Nai Abadi Sawal Mill M.N. 1 to 147 Shanti Nagar Pipli Wala Town"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 512,
+    "c": "Manimajra Nai Abadi Sawal Mill M.N. 148 to 489/1 and Police Quartas M.No. 1"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 513,
+    "c": "Manimajra Pipliwala Town M.N. 277 to 486 and Gurdwara Sahib Teg Fam"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 514,
+    "c": "Manimajra Pipliwala Town M.No. 2200 to the end"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 515,
+    "c": "Manimajra Pipliwala Town M.N. From 2100 to the end"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 516,
+    "c": "Manimajra Mariwala Town M.No.2228 to 2564"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 517,
+    "c": "Manimajra Mariwala Town M.N. 2323 to 2585"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 518,
+    "c": "Manimajra Bangla Basti M.N. 1 to 125/1"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 519,
+    "c": "Manimajra Bangla Basti M.No.2005/1 se 2238/90"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 520,
+    "c": "Manimajra Bangla Basti M.N. 127 to 624/1"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 521,
+    "c": "Manimajra Mariwala Town M.No.2239 to 2545 Gurdwara Tubewell"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 522,
+    "c": "Manimajra Samadhi Gate M.No.2 to 400/2 Arora Mohalla Old Fort"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 523,
+    "c": "Manimajra Samadhi Gate M.N. 401 to 534 Shastri Nagar"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 524,
+    "c": "Manimajra Mauhalla Kumharwala M.N. 1000 to end Morigate M.N.1543/1 s"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 525,
+    "c": "Manimajra Balmiki Basti M.No.163 to 1100 Manimajra Bazar"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 526,
+    "c": "Manimajra Balmiki Basti M.No.1101/2 Se 5334"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 527,
+    "c": "Manimajra mohalla doorman"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 528,
+    "c": "Manimajra Masjid Bharamal Jatawala Khatiawala Mohalla"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 529,
+    "c": "Manimajra 647 of 1959/1 Mauhalla Tarkhanwala Naianwala Mata Raj Kaur"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 530,
+    "c": "Manimajra Mata Raj Kaur M.N. 805 to 1124 Govindpura Town at No. 640 to 1971"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 531,
+    "c": "Manimajra Mohalla Imliwala Mata Raj Kaur Dera Sahib"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 532,
+    "c": "Manimajra Thakurwala 1 Se 775/2 Mohalla Rajkaur Dera Sahib"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 533,
+    "c": "Manimajra Mohalla Thakurwala 777/1 to 7509/3 Fort 777 to 1972/1 Dera Sahib 883 to 1972/1"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 534,
+    "c": "Manimajra Mohalla Samadhi Gate 305 to 1350/1 Main Bazaar 495 to 565 Padowala"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 535,
+    "c": "Manimajra Md. Samadhi Gate Main Bazar Raiyanwala Near Fort"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 536,
+    "c": "Manimajra Harijan Basti AD 1318 to 1571"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 537,
+    "c": "Manimajra Harijan Basti A 250 Se 1955 Durga Temple"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 538,
+    "c": "Manimajra gil farm and gowala colony"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 539,
+    "c": "Manimajra Subhash Nagar M.N. 1 to 76 Old Roped Road M.N. 1 Sec 75 Shiva Temple"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 540,
+    "c": "Manimajra Subhash Nagar M.No. 77 to end Old Ropar Road 76 to end"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 541,
+    "c": "Manimajra Old Darshan Bagh Manimajra"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 542,
+    "c": "Manimajra Mohalla Govindpura"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 543,
+    "c": "Manimajra Railway Colony"
+  },
+  {
+    "s": "Chandigarh",
+    "d": "1 Chandigarh",
+    "n": 544,
+    "c": "Manimajra Shivalik Enclave 1 to 1668"
+  }
+];
+
+// Handle dynamic field changes for Chandigarh
+document.getElementById("state").addEventListener("change", function() {
+    const psInput = document.getElementById("ps");
+    const psLabel = document.getElementById("psLabel");
+    if (this.value === "Chandigarh") {
+        psInput.placeholder = "Not required for Chandigarh";
+        psInput.disabled = true;
+        psInput.value = "";
+        psLabel.innerHTML = 'Polling Station (PS) No. <span style="color:#666; font-weight:normal;">(Not required)</span>';
+    } else {
+        psInput.placeholder = "e.g. 45";
+        psInput.disabled = false;
+        psLabel.innerHTML = 'Polling Station (PS) No. <span style="color:red;">*</span>';
+    }
+});
+
+function pad3(num) {
+    return String(num).padStart(3, '0');
+}
+
+function getPdfUrl(state, ac, ps) {
+    if (state === "Chandigarh") {
+        return `https://ceochandigarh.gov.in//chd/chd${ac}.PDF`;
+    }
+
+    const eciStates = {
+        "Punjab": { folder: "f2", code: "S19" },
+        "Haryana": { folder: "f1", code: "S07" },
+        "Madhya Pradesh": { folder: "f2", code: "S12" },
+        "Himachal Pradesh": { folder: "f1", code: "S08" },
+        "Delhi": { folder: "f4", code: "U05" }
+    };
+
+    if (state === "Uttar Pradesh") {
+        const ac3 = pad3(ac);
+        const ps3 = pad3(ps);
+        return `https://ceouttarpradesh.nic.in/rollpdf/Erollpdf/AC${ac3}/AC${ac3}P${ps3}.pdf`;
+    } else {
+        const cfg = eciStates[state];
+        if (cfg) {
+            return `https://www.eci.gov.in/sir/${cfg.folder}/${cfg.code}/data/OLDSIRROLL/${cfg.code}/${ac}/${cfg.code}_${ac}_${ps}.pdf`;
+        }
+    }
+    return "";
+}
+
+function searchRoll() {
+    const selectedState = document.getElementById("state").value;
+    const acVal = document.getElementById("ac").value.trim();
+    const psVal = document.getElementById("ps").value.trim();
+
+    if (!acVal) {
+        alert("Please enter the Assembly Constituency (AC) number.");
+        return;
+    }
+
+    const acNum = parseInt(acVal, 10);
+    
+    // Check if the input is only valid for Chandigarh when PS is missing
+    if (!psVal && selectedState !== "Chandigarh") {
+        const hasChdMatch = database.some(item => item.n === acNum && item.s === "Chandigarh");
+        if (!hasChdMatch) {
+            alert("Please enter the Polling Station (PS) number. It is required for all states except Chandigarh.");
+            return;
+        }
+    }
+
+    // Filter local embedded database
+    const matches = database.filter(item => {
+        const matchAC = item.n === acNum;
+        const matchState = selectedState === "" || item.s === selectedState;
+        
+        // If PS is omitted, we can only return Chandigarh records
+        if (!psVal && item.s !== "Chandigarh") {
+            return false;
+        }
+        
+        return matchAC && matchState;
+    });
+
+    const container = document.getElementById("resultsContainer");
+    const tbody = document.getElementById("resultsBody");
+    
+    tbody.innerHTML = "";
+    container.style.display = "block";
+
+    if (matches.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="no-results">No records found matching AC Number ${acVal} under current search criteria.</td></tr>`;
+        return;
+    }
+
+    matches.forEach(item => {
+        const url = getPdfUrl(item.s, item.n, psVal);
+        const tr = document.createElement("tr");
+        
+        const isChd = item.s === "Chandigarh";
+        const badgeClass = isChd ? "badge badge-chd" : "badge";
+        const psDisplay = isChd ? "<em>Not Required</em>" : `No. ${psVal}`;
+
+        tr.innerHTML = `
+            <td><span class="${badgeClass}">${item.s}</span></td>
+            <td>${item.d}</td>
+            <td><strong>${item.c}</strong> (AC-${item.n})</td>
+            <td>${psDisplay}</td>
+            <td><a href="${url}" target="_blank" class="btn-open">Open PDF ↗</a></td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function clearForm() {
+    document.getElementById("state").value = "";
+    document.getElementById("ac").value = "";
+    const psInput = document.getElementById("ps");
+    psInput.value = "";
+    psInput.placeholder = "e.g. 45";
+    psInput.disabled = false;
+    document.getElementById("psLabel").innerHTML = 'Polling Station (PS) No. <span style="color:red;">*</span>';
+    document.getElementById("resultsContainer").style.display = "none";
+}
+</script>
+
+</body>
+</html>
